@@ -115,6 +115,7 @@ function draw() {
       var official_count = 0, tcp_count = 0, udp_count = 0;
       var plist = ports[d];
       for (var p=0; p<plist.length; p++) {
+        if (plist[p].label === 'Unassigned') { continue; }
         if (plist[p].official) { official_count += 1; }
         if (plist[p].tcp) { tcp_count += 1; }
         if (plist[p].udp) { udp_count += 1; }
