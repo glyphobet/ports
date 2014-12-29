@@ -41,7 +41,7 @@ function rotate(n, x, y, rx, ry) {
         x = y;
         y = t;
     }
-    return {x:x,y:y};
+    return {x:x, y:y};
 }
 
 var size = 256;
@@ -102,11 +102,11 @@ function draw() {
 
     // background
     if (d < 1024) {
-      context.fillStyle = 'rgb(255,255,255)';
+      context.fillStyle = 'hsl(0,0%,100%)';
     } else if (d < 49152) {
-      context.fillStyle = 'rgb(240,240,244)';
+      context.fillStyle = 'hsl(0,0%,95%)';
     } else {
-      context.fillStyle = 'rgb(224,224,228)';
+      context.fillStyle = 'hsl(0,0%,90%)';
     }
     context.fillRect(xy.x*scale, xy.y*scale, scale, scale);
 
@@ -119,17 +119,15 @@ function draw() {
         if (plist[p].tcp) { tcp_count += 1; }
         if (plist[p].udp) { udp_count += 1; }
       }
-      var opacity = (official_count / plist.length) / 2 + 0.5;
+      var opacity = (official_count / plist.length) / 3 + 0.667;
 
       if (tcp_count + udp_count) {
-        var hue = 300 + 60 * (tcp_count - udp_count) / (tcp_count + udp_count);
+        var hue = 298 + 51 * (tcp_count - udp_count) / (tcp_count + udp_count);
       } else {
-        var hue = 120;
+        var hue = 65;
       }
-
-      context.fillStyle = 'hsla(' + hue.toFixed() + ', 50%, 50%,'+ opacity + ')';
+      context.fillStyle = 'hsla(' + hue.toFixed() + ', 90%, 40%,'+ opacity + ')';
       context.fillRect(xy.x*scale, xy.y*scale, scale, scale);
-
       // context.fillStyle = 'black';
       // context.fillRect(xy.x*scale+1, xy.y*scale+1, 1, 1);
     }
