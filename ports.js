@@ -58,7 +58,7 @@ function getMousePos(canvas, evt) {
 
 function show_caption(mousePos) {
   var caption = document.getElementsByTagName('figcaption')[0];
-  var d = xy2d(size, (mousePos.x/scale).toFixed(), (mousePos.y/scale).toFixed());
+  var d = xy2d(size, Math.round(mousePos.x/scale-0.5), Math.round(mousePos.y/scale-0.5));
   caption.innerHTML = '';
   caption.appendChild(document.createElement('h1')).appendChild(document.createTextNode('Port: ' + d));
   if (ports[d]) {
