@@ -1,47 +1,65 @@
-//convert (x,y) to d
-function xy2d (n, x, y) {
-    var rx, ry, s, d=0;
-    for (s=n/2; s>0; s/=2) {
-        rx = (x & s) > 0;
-        ry = (y & s) > 0;
-        d += s * s * ((3 * rx) ^ ry);
-        var rrr = rotate(s, x, y, rx, ry);
-        x = rrr.x;
-        y = rrr.y;
+function d2xy(size, d, debug) {
+  var x, y, r, sidelen, min, max;
+  for (r = 1; r <= size / 2; r += 1) {
+    max = Math.pow(r * 2, 2);
+    if (d < max) {
+      min = Math.pow((r - 1) * 2, 2);
+      sidelen = 2 * r -1;
+      if (d < min + sidelen * 1) {
+        if (debug) console.log(d+' is in section 1 of ring '+r+' with side length '+sidelen);
+        y = r;
+        x = -( r - 1) + d - min;
+      } else if (d < min + sidelen * 2) {
+        if (debug) console.log(d+' is in section 2 of ring '+r+' with side length '+sidelen);
+        y = (r - 1) - (d - min - sidelen * 1);
+        x = r;
+      } else if (d < min + sidelen * 3) {
+        if (debug) console.log(d+' is in section 3 of ring '+r+' with side length '+sidelen);
+        y = -(r);
+        x = (r - 1) - (d - min - sidelen * 2);
+      } else if (d < min + sidelen * 4) {
+        if (debug) console.log(d+' is in section 4 of ring '+r+' with side length '+sidelen);
+        y = -(r - 1) + (d - min - sidelen * 3);
+        x = -(r);
+      }
+      if (debug) console.log(x, y);
+      return {x: x + size / 2, y: y + size / 2};
     }
-    return d;
+  }
 }
 
-//convert d to (x,y)
-function d2xy(n, d) {
-    var rx, ry, s, t=d;
-    var x = 0, y = 0;
-    for (s=1; s<n; s*=2) {
-        rx = 1 & (t/2);
-        ry = 1 & (t ^ rx);
-        var rrr = rotate(s, x, y, rx, ry);
-        x = rrr.x;
-        y = rrr.y;
-        x += s * rx;
-        y += s * ry;
-        t /= 4;
+function xy2d(size, x, y, debug) {
+  var d, r, min, max, sidelen;
+  x = x - size/2;
+  y = y - size/2;
+  var xabs = Math.abs(x), yabs = Math.abs(y);
+  for (r = 1; r <= size / 2; r += 1) {
+    if (Math.max(xabs, yabs) <= r) {
+      min = Math.pow((r - 1) * 2, 2);
+      max = Math.pow(r * 2, 2);
+      sidelen = 2 * r -1;
+      d = min;
+      if (y > 0 && yabs > xabs) {
+        d += r - 1 + x;
+        if (debug) console.log('('+x+','+y+') is in section 1 of ring '+r);
+      } else if (x > 0 && xabs > yabs) {
+        d += sidelen * 1;
+        d += r - 1 - y;
+        if (debug) console.log('('+x+','+y+') is in section 2 of ring '+r);
+      } else if (y < 0 && yabs > xabs) {
+        d += sidelen * 2;
+        d += r - 1 - x;
+        if (debug) console.log('('+x+','+y+') is in section 3 of ring '+r);
+      } else if (x < 0 && xabs > yabs) {
+        d += sidelen * 3;
+        d += r - 1 + y;
+        if (debug) console.log('('+x+','+y+') is in section 4 of ring '+r);
+      } else {
+        d = undefined;
+      }
+      return d;
     }
-    return {x:x, y:y};
-}
-
-//rotate/flip a quadrant appropriately
-function rotate(n, x, y, rx, ry) {
-    if (ry == 0) {
-        if (rx == 1) {
-            x = n-1 - x;
-            y = n-1 - y;
-        }
-        //Swap x and y
-        t  = x;
-        x = y;
-        y = t;
-    }
-    return {x:x, y:y};
+  }
 }
 
 var size = 256;
