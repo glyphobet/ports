@@ -8,21 +8,26 @@ function d2xy(size, d, debug) {
       if (d < min + sidelen * 1) {
         if (debug) console.log(d+' is in section 1 of ring '+r+' with side length '+sidelen);
         y = r;
-        x = -( r - 1) + d - min;
+        x = -(r - 1) + d - min;
+        y -= 1;
       } else if (d < min + sidelen * 2) {
         if (debug) console.log(d+' is in section 2 of ring '+r+' with side length '+sidelen);
         y = (r - 1) - (d - min - sidelen * 1);
         x = r;
+        y -= 1;
+        x -= 1;
       } else if (d < min + sidelen * 3) {
         if (debug) console.log(d+' is in section 3 of ring '+r+' with side length '+sidelen);
         y = -(r);
         x = (r - 1) - (d - min - sidelen * 2);
+        x -= 1;
       } else if (d < min + sidelen * 4) {
         if (debug) console.log(d+' is in section 4 of ring '+r+' with side length '+sidelen);
         y = -(r - 1) + (d - min - sidelen * 3);
         x = -(r);
       }
       if (debug) console.log(x, y);
+      // return {x: x /*+ size / 2*/, y: y /*+ size / 2*/};
       return {x: x + size / 2, y: y + size / 2};
     }
   }
@@ -30,9 +35,20 @@ function d2xy(size, d, debug) {
 
 function xy2d(size, x, y, debug) {
   var d, r, min, max, sidelen;
-  x = x - size/2;
-  y = y - size/2;
+  ox = x = x - size/2;
+  oy = y = y - size/2;
+
+  if (oy >= Math.abs(ox)) {
+    y += 1;
+  } else if (ox >= Math.abs(oy+1)) {
+    x += 1;
+    y += 1;
+  } else if (-oy >= Math.abs(ox)) {
+    x += 1;
+  }
+
   var xabs = Math.abs(x), yabs = Math.abs(y);
+
   for (r = 1; r <= size / 2; r += 1) {
     if (Math.max(xabs, yabs) <= r) {
       min = Math.pow((r - 1) * 2, 2);
