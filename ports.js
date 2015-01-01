@@ -27,7 +27,6 @@ function d2xy(size, d, debug) {
         x = -(r);
       }
       if (debug) console.log(x, y);
-      // return {x: x /*+ size / 2*/, y: y /*+ size / 2*/};
       return {x: x + size / 2, y: y + size / 2};
     }
   }
@@ -80,7 +79,7 @@ function xy2d(size, x, y, debug) {
 
 var size = 256;
 var max = Math.pow(size, 2);
-var scale = 3;
+var scale = 4;
 
 function getMousePos(canvas, evt) {
   var rect = canvas.getBoundingClientRect();
