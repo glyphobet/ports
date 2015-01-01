@@ -1,0 +1,32 @@
+body {
+  line-height: 1.6em;
+  margin: 0 auto;
+}
+canvas { }
+figcaption {
+  position: absolute;
+  background-color: hsla(0, 100%, 100%, 0.90);
+  padding: 1em;
+  border-radius: 1em;
+  max-width: 384px;
+}
+figure {
+  position: relative;
+}
+.tag {
+  padding: 0.2em 0.3em;
+  margin: 0.2em 0.3em;
+  border-radius: 0.4em;
+  color: white;
+  font-variant: small-caps;
+  text-transform: uppercase;
+}
+.udp { background-color: hsl(247, 90%, 40%); }
+.udptcp { background-color: hsl(298, 90%, 40%); }
+.tcp { background-color: hsl(349, 90%, 40%); }
+.official { opacity: 1; }
+.unofficial { opacity: 0.667; }
+.official:before {
+  content: '\2713';
+  padding-right: 0.25em;
+}

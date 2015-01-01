@@ -92,8 +92,24 @@ function getMousePos(canvas, evt) {
 function show_caption(mousePos) {
   var caption = document.getElementsByTagName('figcaption')[0];
   var d = xy2d(size, Math.round(mousePos.x/scale-0.5), Math.round(mousePos.y/scale-0.5));
+
+  if (mousePos.x/scale > size/2) {
+    caption.style.left = 'initial';
+    caption.style.right = (size*scale - mousePos.x + scale*2 - 80) + 'px';
+  } else {
+    caption.style.left = mousePos.x + scale*2 + 'px';
+    caption.style.right = 'initial';
+  }
+  if (mousePos.y/scale > size/2) {
+    caption.style.top = 'initial';
+    caption.style.bottom = (size*scale - mousePos.y + scale*2) + 'px';
+  } else {
+    caption.style.top = mousePos.y + scale*2 + 'px';
+    caption.style.bottom = 'initial';
+  }
+
   caption.innerHTML = '';
-  caption.appendChild(document.createElement('h1')).appendChild(document.createTextNode('Port: ' + d));
+  caption.appendChild(document.createElement('h1')).appendChild(document.createTextNode('Port:\u00A0' + d));
   if (ports[d]) {
     var plist = ports[d];
     var ul = caption.appendChild(document.createElement('ul'));
@@ -126,6 +142,7 @@ function draw() {
     show_caption(mousePos);
   }, false);
 
+  document.getElementsByTagName('body')[0].style.width = (size * scale) + 'px';
   canvas.width = size * scale;
   canvas.height = size * scale;
   var context = canvas.getContext('2d');
