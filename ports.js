@@ -109,13 +109,12 @@ function show_caption(mousePos) {
   }
 
   caption.innerHTML = '';
-  caption.appendChild(document.createElement('h1')).appendChild(document.createTextNode('Port:\u00A0' + d));
+  caption.appendChild(document.createElement('h1')).appendChild(document.createTextNode('Port\u00A0' + d));
   if (ports[d]) {
     var plist = ports[d];
     var ul = caption.appendChild(document.createElement('ul'));
     for (var p=0; p<plist.length; p++) {
       var li = ul.appendChild(document.createElement('li'));
-      li.appendChild(document.createTextNode(plist[p].label));
       if (plist[p].tcp && plist[p].udp) {
         var t = li.appendChild(document.createElement('span'))
         t.setAttribute('class', 'tag udptcp ' + (plist[p].official ? 'official' : 'unofficial'))
@@ -129,9 +128,11 @@ function show_caption(mousePos) {
         u.setAttribute('class', 'tag udp ' + (plist[p].official ? 'official' : 'unofficial'))
         u.appendChild(document.createTextNode('udp'));
       }
+      li.appendChild(document.createTextNode(plist[p].label));
     }
   } else {
-    caption.appendChild(document.createTextNode('Unassigned.'));
+    var p = caption.appendChild(document.createElement('p'));
+    p.appendChild(document.createTextNode('Unassigned.'));
   }
 }
 

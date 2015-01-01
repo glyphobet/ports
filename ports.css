@@ -1,12 +1,17 @@
 body {
-  line-height: 1.6em;
+  line-height: 1.5em;
   margin: 0 auto;
+  font-family: Futura;
+}
+p {
+  text-align: center;
+  font-style: italic;
 }
 canvas { }
 figcaption {
   position: absolute;
   background-color: hsla(0, 100%, 100%, 0.90);
-  padding: 1em;
+  padding: 0 1em;
   border-radius: 1em;
   max-width: 384px;
 }
@@ -14,12 +19,13 @@ figure {
   position: relative;
 }
 .tag {
-  padding: 0.2em 0.3em;
-  margin: 0.2em 0.3em;
-  border-radius: 0.4em;
+  padding: 0.2em 0.4em;
+  margin: 0.3em;
+  border-radius: 0.5em;
   color: white;
   font-variant: small-caps;
   text-transform: uppercase;
+  font-size: small;
 }
 .udp { background-color: hsl(247, 90%, 40%); }
 .udptcp { background-color: hsl(298, 90%, 40%); }
