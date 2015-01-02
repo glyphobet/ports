@@ -138,10 +138,31 @@ function show_caption(mousePos) {
 
 function draw() {
   var canvas = document.getElementsByTagName('canvas')[0];
-  canvas.addEventListener('mousemove', function (evt) {
+  var mode = 'click';
+
+  var position_handler = function (evt) {
     var mousePos = getMousePos(canvas, evt);
     show_caption(mousePos);
-  }, false);
+  };
+
+  var behavior_toggler = function (evt) {
+    if (mode == 'hover') {
+      canvas.removeEventListener('mousemove', position_handler, false);
+      canvas.removeEventListener('click', behavior_toggler, false);
+      canvas.addEventListener('click', position_handler, false);
+      canvas.addEventListener('dblclick', behavior_toggler, false);
+      mode = 'click';
+      canvas.style.cursor = 'pointer';
+    } else {
+      canvas.removeEventListener('click', position_handler, false);
+      canvas.removeEventListener('dblclick', behavior_toggler, false);
+      canvas.addEventListener('mousemove', position_handler, false);
+      canvas.addEventListener('click', behavior_toggler, false);
+      mode = 'hover';
+      canvas.style.cursor = 'default';
+    }
+  };
+  behavior_toggler();
 
   document.getElementsByTagName('body')[0].style.width = (size * scale) + 'px';
   canvas.width = size * scale;
